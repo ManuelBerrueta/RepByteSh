@@ -1,0 +1,79 @@
+#!/bin/bash
+
+#Test Script
+
+#Declaring Constants
+declare -r myName="Manny"
+
+title="$myName's Test Script"
+
+echo $title
+
+NUM1=5
+
+num2=4
+
+#The $ allows us to do arithmatic
+num3=$((NUM1+num2))
+num4=$((NUM1-num2))
+num5=$((NUM1*num2))
+num6=$((NUM1/num2))
+
+echo "5 + 4 = $num3"
+echo "5 - 4 = $num4"
+echo "5 * 4 = $num5"
+echo "5 / 4 = $num6"
+
+echo $((5**2))
+echo $((5%4))
+
+getDate()
+{
+    date
+
+    return
+}
+
+getDate
+
+curDate=$(getDate)
+
+cowsay $curDate | lolcat
+
+read -p "What is your name?" tempName
+
+
+# -eq is arithmetic operator, = used for strings
+# Spaces are important in between the brackets and the
+# first variable
+
+if [ "$tempName" = "$myName" ]
+then
+    echo "You are super cool $tempName"
+else
+    echo "$tempName, you are not as cool as $myName!"
+fi
+
+luckyNum=7
+
+printf "Number Manipulation if statement\n\n"
+
+read -p "What is your favorite number? " tempNum
+
+if (( tempNum == luckyNum ))
+then
+    echo "$tempNum is the best Lucky Number!"
+elif (( tempNum > 0 && tempNum < 10 ))
+then
+    echo "$tempNum is not as lucky as $luckyNum!"
+else
+    echo "Your $tempNum is no where near as lucky as my $luckyNum!"
+fi
+
+
+cowsay $tempName | lolcat
+
+cowsay $myName | lolcat
+
+
+
