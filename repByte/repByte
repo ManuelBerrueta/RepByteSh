@@ -6,7 +6,11 @@ myName="Manuel Berrueta"
 description="Utility to replace a given number of bytes with input hex values provided by user"
 numOfBytes=""
 byteInput=""
+repByteStart=""
 counter=0
+wholeInt="Enter whole integer values only"
+fileName=""
+hexX="\x"
 
 echo "$title $version"
 echo "by $myName"
@@ -15,16 +19,29 @@ echo $description
 echo ""
 
 #Start of script
+read -p "Enter file name you would like to modify:> " fileName
+
 read -p "How many consecutive bytes would you like to replace :> " numOfBytes
 #Check for correct values
 while [[ ! "$numOfBytes" =~ ^[0-9]+$ ]]; do
     echo
-    echo "Please enter whole numbers only:"
+    echo $wholeInt
     read -p "How many bytes would you like you replace :> " numOfBytes
+done
+
+read -p "Enter byte replacement starting point:> " repByteStart
+while [[ ! "$numOfBytes" =~ ^[0-9]+$ ]]; do
+    echo
+    echo $wholeInt 
+    read -p "Enter byte replacement starting point:> " repByteStart 
 done
 
 #Replace bytes
 echo "$numOfBytes bytes to replace"
 while (( ++counter <= numOfBytes )); do
     echo "testing counter value = $counter"
+    read -p "Enter hex value for '$counter' replacement:> " byteInput
+    echo "Replaced 'code of' with $byteInput..."
+    echo -ne "\\x$byteInput" | dd conv=notrunc seek=$repByteStart bs=1 count=1 of=$fileName
+    let repByteStart++
 done
