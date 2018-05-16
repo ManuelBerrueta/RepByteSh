@@ -1,0 +1,30 @@
+#!/bin/bash
+
+title="repByte"
+version="v.01"
+myName="Manuel Berrueta"
+description="Utility to replace a given number of bytes with input hex values provided by user"
+numOfBytes=""
+byteInput=""
+counter=0
+
+echo "$title $version"
+echo "by $myName"
+echo ""
+echo $description
+echo ""
+
+#Start of script
+read -p "How many consecutive bytes would you like to replace :> " numOfBytes
+#Check for correct values
+while [[ ! "$numOfBytes" =~ ^[0-9]+$ ]]; do
+    echo
+    echo "Please enter whole numbers only:"
+    read -p "How many bytes would you like you replace :> " numOfBytes
+done
+
+#Replace bytes
+echo "$numOfBytes bytes to replace"
+while (( ++counter <= numOfBytes )); do
+    echo "testing counter value = $counter"
+done
