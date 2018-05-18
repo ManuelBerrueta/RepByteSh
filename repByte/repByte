@@ -1,4 +1,7 @@
 #!/bin/bash
+: '
+This utility allows you to replace a byte or multiple bytes in consecutive order
+'
 
 title="repByte"
 version="v.01"
@@ -11,6 +14,8 @@ counter=0
 wholeInt="Enter whole integer values only"
 fileName=""
 hexX="\x"
+bytesPrior=$( mktemp ); #Used to make a temp file
+curPoint=0
 
 echo "$title $version"
 echo "by $myName"
@@ -36,12 +41,23 @@ while [[ ! "$numOfBytes" =~ ^[0-9]+$ ]]; do
     read -p "Enter byte replacement starting point:> " repByteStart 
 done
 
+curPoint=repByteStart
+
+#Will show the bytes in hex that will be modified
+echo "The following bytes will be modified:"
+xxd -s $repByteStart -l $numOfBytes $fileName | tee ${bytesPrior}; #Alternative using a logfile
+
+
 #Replace bytes
 echo "$numOfBytes bytes to replace"
 while (( ++counter <= numOfBytes )); do
-    echo "testing counter value = $counter"
     read -p "Enter hex value for '$counter' replacement:> " byteInput
     echo "Replaced 'code of' with $byteInput..."
     echo -ne "\\x$byteInput" | dd conv=notrunc seek=$repByteStart bs=1 count=1 of=$fileName
     let repByteStart++
 done
+
+echo "Prior to modification: "
+cat $bytesPrior
+echo "After modificaiton: "
+xxd -s $repByteStart -l $numOfBytes $fileName | tee ${bytesPrior};

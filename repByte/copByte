@@ -1,0 +1,15 @@
+#!/bin/bash
+
+title="copByte"
+version="v.01"
+myName="Manuel Berrueta"
+description="Utility to replace copy and/or replace bytes of a file using the bytes from a source file"
+numOfBytes=""
+byteInput=""
+repByteStart=""
+counter=0
+wholeInt="Enter whole integer values only"
+fileName=""
+hexX="\x"
+
+#Start with appending at the beginning, then possibly end, then at given location
