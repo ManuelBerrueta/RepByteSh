@@ -1,15 +1,30 @@
 #!/bin/bash
 
+: '
+To copy bytes from a file use:
+dd skip=$startPointInBytes count=$numBytesToCopy if=$inFile of=$outFile iflag=skip_bytes,count_bytes
+'
+
 title="copByte"
 version="v.01"
 myName="Manuel Berrueta"
-description="Utility to replace copy and/or replace bytes of a file using the bytes from a source file"
+description="Utility to append, copy and/or replace bytes of a file using the bytes from a source file"
+support="Currently only supporting appending bytes to the end of a file from another file"
 numOfBytes=""
 byteInput=""
 repByteStart=""
 counter=0
 wholeInt="Enter whole integer values only"
-fileName=""
+inputFile=""
+targetFile=""
 hexX="\x"
 
+echo $title
+echo  "by $myName"
+echo $description
+echo $support
+
 #Start with appending at the beginning, then possibly end, then at given location
+read -p "Enter target file :> " targetFile
+read -p "Enter source file to append at the end of target file :> " inputFile
+dd if=$inputFile of=$targetFile oflag=append conv=notrunc

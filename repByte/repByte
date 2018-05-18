@@ -14,8 +14,8 @@ counter=0
 wholeInt="Enter whole integer values only"
 fileName=""
 hexX="\x"
-bytesPrior=$( mktemp ); #Used to make a temp file
-curPoint=0
+bytesPrior=$( mktemp ) #Used to make a temp file
+startPoint=0
 
 echo "$title $version"
 echo "by $myName"
@@ -41,15 +41,15 @@ while [[ ! "$numOfBytes" =~ ^[0-9]+$ ]]; do
     read -p "Enter byte replacement starting point:> " repByteStart 
 done
 
-curPoint=repByteStart
+startPoint=$repByteStart
 
 #Will show the bytes in hex that will be modified
-echo "The following bytes will be modified:"
-xxd -s $repByteStart -l $numOfBytes $fileName | tee ${bytesPrior}; #Alternative using a logfile
+echo "The following bytes will be modified:\n"
+xxd -s $repByteStart -l $numOfBytes $fileName | tee ${bytesPrior}
 
 
 #Replace bytes
-echo "$numOfBytes bytes to replace"
+echo "$numOfBytes bytes to will be replaced"
 while (( ++counter <= numOfBytes )); do
     read -p "Enter hex value for '$counter' replacement:> " byteInput
     echo "Replaced 'code of' with $byteInput..."
@@ -57,7 +57,8 @@ while (( ++counter <= numOfBytes )); do
     let repByteStart++
 done
 
-echo "Prior to modification: "
-cat $bytesPrior
-echo "After modificaiton: "
-xxd -s $repByteStart -l $numOfBytes $fileName | tee ${bytesPrior};
+echo "Modified $fileName file"
+echo "Prior to modification:"
+cat ${bytesPrior}
+echo "After modificaiton:"
+xxd -s $startPoint -l $numOfBytes $fileName
