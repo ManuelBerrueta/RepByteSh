@@ -11,6 +11,12 @@ echo "$myName"
 echo "$description"
 echo ""
 
+if [ $1 == "-h" ]
+then
+echo "copByte targetFile InsertBytesLocation fileOfSourceBytes StartLocOfBytes NumBytes2Copy OutFile"
+exit
+fi
+
 targetFile=$1
 targetByteLocation=$2
 fileToAppend=$3
